@@ -5,7 +5,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
-
+#잠깐 수정되었습니다.
 
 User = get_user_model()
 
