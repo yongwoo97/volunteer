@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 
 #hello
 #또다른 수정사항입니다.
+#github에서 수정한 내용입니다.
 User = get_user_model()
 
 class userType(models.TextChoices):
