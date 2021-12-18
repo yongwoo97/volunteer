@@ -7,7 +7,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 
 #hello
-#또다른 수정사항입니다.
+#또다른 수정사
 #githu
 #new one
 User = get_user_model()
