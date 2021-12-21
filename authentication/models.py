@@ -3,10 +3,6 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import get_user_model
-
-#settings.py에 지정된  user의 모델을 가져온다. default는 장고에 저장된 User 모델
-
 
 class custom_user(models.Model):
     email = models.EmailField(max_length=100, unique = True)
@@ -26,8 +22,7 @@ class custom_user(models.Model):
     def __str__(self):
         return self.email
 
-
-#@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-#def create_auth_token(sender, instance = False, created = False, **kwargs):
-#    if created:
-#        Token.objects.create(user=instance)
+@receiver(post_save, sender = settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance = False, created=False, **kwargs):
+    if created:
+        Token.objects.create(user = instance)

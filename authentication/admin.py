@@ -4,7 +4,7 @@ from .models import custom_user
 
 # Register your models here.
 
-class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('email', 'password', 'username', 'purpose', 'belong')
+class User_Admin(admin.ModelAdmin):
+    list_display = ('email', 'username', 'purpose', 'belong')
 
-admin.site.register(custom_user)
+admin.site.register(custom_user, User_Admin)

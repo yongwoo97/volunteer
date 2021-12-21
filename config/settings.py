@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'c0_bq4v72h_ftua$77-2bad@q2uv1vttfdwqnp&5rv8)dusyoy'
 
+#AUTH_USER_MODEL 경로 추가
+AUTH_USER_MODEL = 'authentication.custom_user'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
