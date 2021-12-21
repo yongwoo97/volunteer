@@ -23,6 +23,9 @@ class custom_user(models.Model):
         #데이터베이스에 저장될 때 저장되는 테이블이름
         db_table = 'accounts'
 
+    def __str__(self):
+        return self.email
+
 
 #@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 #def create_auth_token(sender, instance = False, created = False, **kwargs):
