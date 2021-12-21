@@ -1,40 +1,30 @@
-from django.contrib.auth.models import User
+from .models import custom_user
 from rest_framework import serializers
 
-
-class RegistrationUserSerializer(serializers.ModelSerializer):
-    """
-    ModelSerializer로 만든다.
-    """
-
-    # password2는 따로 없기 때문에 추가로 만들어 주어야 한다.
-    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
-        """
-        메타 클래스에 필드, 모델 등을 설정하고
-        password 필드의 스타일을 정해준다.
-        """
-        model = User
-        fields = ['username', 'email', 'password', 'password2']
+
+        model = custom_user
+        fields = '__all__'
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password1': {'write_only': True},
+            'password2': {'write_only': True}
         }
 
+
     def save(self):
-        """
-        저장시 한 번 더 확인한다.
-        """
-        account = User(
+        user = custom_user(
             email=self.validated_data['email'],
-            username=self.validated_data['username']
+            username=self.validated_data['username'],
+            purpose=self.validated_data['purpose'],
+            belong=self.validated_data['belong']
         )
 
-        password = self.validated_data['password']
+        password1 = self.validated_data['password1']
         password2 = self.validated_data['password2']
-
-        if password != password2:
+        if password1 != password2:
             raise serializers.ValidationError({'password': 'Passwords must match'})
-        account.set_password(password)
-        account.save()
-        return account
+
+        user.save()
+        return user

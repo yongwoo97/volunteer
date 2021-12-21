@@ -1,4 +1,3 @@
-# models.py
 from django.db import models
 from django.conf import settings
 from django.db.models.signals import post_save
@@ -6,31 +5,26 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 
-#hello
-#또다른
-#githu
-#new one
-User = get_user_model()
-
-class userType(models.TextChoices):
-    bronzeType = 'BRONZE', 'Bronze'
-    silverType = 'SILVER', 'Silver'
-    platinumType = 'PLATINUM', 'Platinum'
-    diamondType = 'DIAMOND', 'Diamond'
+#settings.py에 지정된  user의 모델을 가져온다. default는 장고에 저장된 User 모델
 
 
-class UserRole(models.Model):
-    userType = models.CharField(max_length=10,
-        choices=userType.choices, default=userType.bronzeType)
-    userForeignKey = models.OneToOneField(User, on_delete=models.CASCADE,
-        null=True, blank=True, related_name='RoleUser')
+class custom_user(models.Model):
+    email = models.EmailField(max_length=100, unique = True)
+    password1 = models.CharField(max_length=200)
+    password2 = models.CharField(max_length=200)
+    username = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.userForeignKey.username + ' / ' + self.userType + ' 등급'
+    #봉사기관(True) or 봉사자(False)
+    purpose = models.BooleanField(default=False)
+    #소속
+    belong = models.CharField(max_length=300, default=None)
+
+    class Meta:
+        #데이터베이스에 저장될 때 저장되는 테이블이름
+        db_table = 'accounts'
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=False, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
-        UserRole.objects.create(userForeignKey=instance)
+#@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+#def create_auth_token(sender, instance = False, created = False, **kwargs):
+#    if created:
+#        Token.objects.create(user=instance)
