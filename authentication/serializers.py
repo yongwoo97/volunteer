@@ -8,8 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = custom_user
         fields = '__all__'
         extra_kwargs = {
-            'password1': {'write_only': True},
-            'password2': {'write_only': True}
+            'password': {'write_only': True}
         }
 
 
@@ -18,13 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],
             username=self.validated_data['username'],
             purpose=self.validated_data['purpose'],
+            password = self.validated_data['password'],
             belong=self.validated_data['belong']
         )
-
-        password1 = self.validated_data['password1']
-        password2 = self.validated_data['password2']
-        if password1 != password2:
-            raise serializers.ValidationError('check')
-
         user.save()
         return user
