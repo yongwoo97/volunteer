@@ -15,6 +15,5 @@ class boardviewset(viewsets.ModelViewSet):
     serializer_class = boardserializer
 
     # serializer.save() 재정의
-    @action(methods=['POST'], detail=True)
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(author=self.request.user)
