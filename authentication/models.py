@@ -21,7 +21,7 @@ class custom_user(AbstractUser):
         db_table = 'accounts'
 
     def __str__(self):
-        return self.email
+        return self.username
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

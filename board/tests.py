@@ -1,3 +1,9 @@
-from django.test import TestCase
+class a:
 
-# Create your tests here.
+    def __init__(self):
+
+        self._user = 1
+    def b(self):
+        print(self.user)
+a1 = a()
+a1.b()

@@ -35,10 +35,9 @@ def registration_view(request):
 def login_view(request):
     if request.method == 'POST':
         email = request.data.get('email')
-        print(email)
         password = request.data.get('password')
+        user = authenticate(username=email, password=password)
 
-        user = authenticate(username = email, password = password)
         if not user:
             return JsonResponse({'error': 'invalid user'})
 
