@@ -6,4 +6,4 @@ class a:
     def b(self):
         print(self.user)
 a1 = a()
-a1.b()
+print(getattr(a1, '_user'))

@@ -7,9 +7,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Abstra
 
 
 class custom_user(AbstractUser):
-    email = models.EmailField(max_length=100, unique=True, null=False)
+    username = models.EmailField(max_length=100, unique=True, null=False)
     password = models.CharField(max_length=200)
-    username = models.CharField(max_length=100, null = False, unique=True)
+    nickname = models.CharField(max_length=100, null = False, unique=True, default = '익명')
     # 봉사기관(True) or 봉사자(False)
     purpose = models.BooleanField(default=False)
     # 소속

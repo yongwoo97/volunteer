@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     def save(self):
         user = custom_user(
-            email=self.validated_data['email'],
+            nickname=self.validated_data['nickname'],
             username=self.validated_data['username'],
             purpose=self.validated_data['purpose'],
             password = self.validated_data['password'],

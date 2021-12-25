@@ -19,8 +19,8 @@ def registration_view(request):
             account = serializer.save()
 
             data['response'] = "success"
-            data['email'] = account.email
-            data['username'] = account.username
+            data['email'] = account.username
+            data['nickname'] = account.nickname
             token = Token.objects.get(user=account).key
             data['token'] = token
 
@@ -34,10 +34,10 @@ def registration_view(request):
 @permission_classes((permissions.AllowAny, ))
 def login_view(request):
     if request.method == 'POST':
-        email = request.data.get('email')
+        username = request.data.get('email')
         password = request.data.get('password')
-        user = authenticate(username=email, password=password)
-
+        user = authenticate(username=username, password=password)
+        print(user)
         if not user:
             return JsonResponse({'error': 'invalid user'})
 
