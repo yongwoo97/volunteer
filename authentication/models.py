@@ -14,7 +14,7 @@ class custom_user(AbstractUser):
     purpose = models.BooleanField(default=False)
     # 소속
     belong = models.CharField(max_length=300, default='봉사자')
-
+    is_active = models.BooleanField(default=False)
 
     class Meta:
         #데이터베이스에 저장될 때 저장되는 테이블이름
