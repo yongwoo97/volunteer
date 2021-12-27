@@ -65,7 +65,17 @@ def login_view(request):
         token, _ = Token.objects.get_or_create(user=user)
         return JsonResponse({'token': token.key})
 
-
+#닉네임 중복 확인
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def nickname_check(request):
+    if request.method == 'POST':
+        nickname = request.data.get('nickname')
+        try:
+            db_nickname = custom_user.objects.get(nickname=nickname)
+            return JsonResponse({'message' : 'already exists'})
+        except:
+            return JsonResponse({'message' : 'possible nickname'})
 
 
 class Activate(View):
