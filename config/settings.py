@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'board',
     'authentication',
+    'chat',
     'rest_framework.authtoken',
     'django_celery_beat',
     'django_celery_results',

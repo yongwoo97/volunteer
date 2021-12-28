@@ -4,7 +4,6 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from .serializers import UserSerializer
 from django.contrib.auth import authenticate
-from .tasks import sending_email
 
 #여기는 메일 인증을 위해 사용한 것들
 from .models import custom_user
@@ -39,15 +38,11 @@ def registration_view(request):
             message_data = message(domain, uidb64, token)
 
             #이메일을 보내는 프로세스가 약 5초 정도 걸리는데 이러면 너무 오래걸려서 비동기적으로 처리할 예정
-            print(user.username)
             sending_email.delay(message_data, user.username)
             return JsonResponse({'message':'success'}, status = 200)
         else:
             data = serializer.errors
         return JsonResponse(data)
-
-
-
 
 
 #로그인 뷰, 아이디 패스워드 체크하고 맞으면 토큰 발급
@@ -73,7 +68,7 @@ def nickname_check(request):
         nickname = request.data.get('nickname')
         try:
             db_nickname = custom_user.objects.get(nickname=nickname)
-            return JsonResponse({'message' : 'already exists'})
+            return JsonResponse({'message': 'already exists'})
         except:
             return JsonResponse({'message' : 'possible nickname'})
 

@@ -8,7 +8,7 @@ from authentication.models import custom_user
 class board(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     title = models.CharField(max_length=100)
-    author = models.ForeignKey(custom_user, to_field='username', null=True, blank=True, on_delete=models.CASCADE)
+    author = models.ForeignKey(custom_user, to_field='nickname', null=True, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     still_ing = models.BooleanField(default=True)
     dday = models.CharField(max_length=100, null=False)
