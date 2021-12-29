@@ -44,4 +44,4 @@
 ###### ASGI 비동기적인 방식으로 장고를 전환
 ###### 실제 채팅을 구현하여 실현 가능성 파악완료(가능)
 ###### orm, selected_related(join기능으로 외래키를 서버가 끝날때까지 cache값으로 저장
-###### prefetch_related는 selected_related와 동일하나 다대다 관계일 때 
+###### prefetch_related는 selected_related와 동일하나 다대다 관계일 때 사용
