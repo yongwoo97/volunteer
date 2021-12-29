@@ -11,8 +11,7 @@ urlpatterns = [
     path('api/login/', login_view, name='login_user'),
     path('api/board/', include('board.urls')),
     path('api/nicknamecheck/', nickname_check, name='nickname_check'),
-    path('api/chat/', include('chat.urls')),
-
+    path('chat/', include('chat.urls')),
 ]
 
 

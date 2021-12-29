@@ -17,8 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
             username=self.validated_data['username'],
             nickname=self.validated_data['nickname'],
             purpose=self.validated_data['purpose'],
-            password = self.validated_data['password'],
             belong=self.validated_data['belong']
         )
+        user.set_password(self.validated_data['password'])
         user.save()
         return user
