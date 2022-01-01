@@ -87,11 +87,11 @@ class Activate(View):
                 user.is_active = True
                 user.save()
                 #리다이렉트를 어디로 설정할 것인가? 메인페이지로 호출해야겠지
-                return redirect('http://127.0.0.1:8000/admin/')
+                return redirect('http://15.164.62.156:8888/')
 
-            return JsonResponse({'message' : 'AUTH FAIL'}, status=400)
+            return JsonResponse({'message' : 'auth_fail'}, status=400)
         except ValidationError:
-            return JsonResponse({'message' : 'TYPE_ERROR'}, status=400)
+            return JsonResponse({'message' : 'type_error'}, status=400)
         except KeyError:
-            return JsonResponse({'message' : 'INVALID_KEY'}, status=400)
+            return JsonResponse({'message' : 'invalid_key'}, status=400)
 

@@ -10,7 +10,7 @@ class board(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(custom_user, to_field='nickname', null=True, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    still_ing = models.BooleanField(default=True)
+    state = models.CharField(max_length=100, default='apply-state apply-ing')
     dday = models.CharField(max_length=100, null=False)
     members = models.IntegerField(default=0)
     part = models.CharField(max_length=50)

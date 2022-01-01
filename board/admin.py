@@ -6,7 +6,7 @@ from .models import board
 
 class Board_Admin(admin.ModelAdmin):
     list_display = ('id', 'title', 'author', 'created_at',
-                    'still_ing', 'dday', 'members', 'part',
+                    'state', 'dday', 'members', 'part',
                     'place', 'detail')
 
 admin.site.register(board, Board_Admin)
