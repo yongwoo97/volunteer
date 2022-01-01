@@ -1,6 +1,7 @@
 from .models import board
 from rest_framework import serializers
 from chat.models import Thread
+
 class boardserializer(serializers.ModelSerializer):
     class Meta:
         model = board
@@ -11,11 +12,6 @@ class boardserializer1(serializers.ModelSerializer):
     class Meta:
         model = board
         fields = '__all__'
-
-
-
-
-
 
 class ChatThreadSerializer(serializers.ModelSerializer):
     class Meta:
