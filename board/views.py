@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
-
+from rest_framework.decorators import action
 # board의 목록, detail 보여주기, 수정하기, 삭제하기 모두 가능
 class boardviewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -18,28 +18,26 @@ class boardviewset(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = board.objects.all()
     serializer_class = boardserializer
+    print(serializer_class)
     # serializer.save() 재정의
     def perform_create(self, serializer):
-        print(self.request.user)
         serializer.save(author=self.request.user)
 
+    #인스턴스를 할때마다 생성하나 보다
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = boardserializer1
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         new_data = {}
-        try:
 
+        try:
             if request.user.nickname == instance.author.nickname:
                 for i in serializer.data:
                     new_data[i] = serializer.data[i]
                 new_data['is_author'] = True
                 return Response(new_data)
-            else:
-                return Response(serializer.data)
         except:
-            print('실패')
-
+            return Response(serializer.data)
         return Response(serializer.data)
 
 
