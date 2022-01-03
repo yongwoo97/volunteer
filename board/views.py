@@ -18,7 +18,7 @@ class boardviewset(viewsets.ModelViewSet):
     #permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = board.objects.all()
     serializer_class = boardserializer
-    print(serializer_class)
+
     # serializer.save() 재정의
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -39,6 +39,13 @@ class boardviewset(viewsets.ModelViewSet):
         except:
             return Response(serializer.data)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['GET'], url_path='my_list')
+    def my_list(self, request):
+        qs = self.queryset.filter(author=request.user.nickname)
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
+
 
 
 @api_view(['POST',])

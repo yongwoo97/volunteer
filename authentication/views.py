@@ -2,7 +2,7 @@
 from rest_framework.authtoken.models import Token
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import UserSerializer
+from .serializers import UserSerializer, ProfileSerializer
 from django.contrib.auth import authenticate
 
 #여기는 메일 인증을 위해 사용한 것들
@@ -18,6 +18,20 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from .tasks import sending_email
+from .permissions import IsOwnerOrNothing
+
+@api_view(['GET', ])
+@permission_classes((IsOwnerOrNothing, ))
+def request_profile(request):
+    if request.method == 'GET':
+        try:
+            userobj = request.user
+            qs = custom_user.objects.get(username=userobj.username)
+            serializer = ProfileSerializer(qs)
+
+            return JsonResponse(serializer.data)
+        except:
+            return JsonResponse({"error": "invalid user"})
 
 
 @api_view(['POST', ])
@@ -25,7 +39,7 @@ from .tasks import sending_email
 def registration_view(request):
     if request.method == 'POST':
 
-        serializer = UserSerializer(data = request.data)
+        serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid():
 
@@ -53,7 +67,7 @@ def login_view(request):
         username = request.data.get('email')
         password = request.data.get('password')
         user = authenticate(username=username, password=password)
-        print(user)
+
         if not user:
             return JsonResponse({'error': 'invalid user'})
 
