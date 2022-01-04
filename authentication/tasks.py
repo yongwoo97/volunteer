@@ -8,6 +8,6 @@ def sending_email(message_data, who):
     mail_title = '이메일 인증을 완료해주세요'
     email = EmailMessage(mail_title, message_data, to=[who])
     email.send()
-    print('hello')
+    print('이메일이 전송되었습니다.')
     return
 

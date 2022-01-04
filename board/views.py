@@ -19,6 +19,20 @@ class boardviewset(viewsets.ModelViewSet):
     queryset = board.objects.all()
     serializer_class = boardserializer
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        data = {
+            "list": serializer.data
+        }
+        return Response(data)
+
     # serializer.save() 재정의
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
