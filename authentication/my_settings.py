@@ -10,8 +10,7 @@ EMAIL = {
     'EMAIL_PORT' : 587,
     'EMAIL_HOST' : 'smtp.gmail.com',
     'EMAIL_HOST_USER' : 'woo22661@gmail.com',
-    'EMAIL_HOST_PASSWORD': 'Fuckchina2@',
+    'EMAIL_HOST_PASSWORD': 'vrnt hkmr owhi irir',
     'SERVER_EMAIL' : 'woo22661@gmail.com',
-    'REDIRECT_PAGE' : 'https://naver.com'
 }
 

@@ -13,7 +13,7 @@ class custom_user(AbstractUser):
     # 봉사기관(True) or 봉사자(False)
     purpose = models.BooleanField(default=False)
     # 소속
-    belong = models.CharField(max_length=300, default='봉사자')
+    belong = models.CharField(max_length=300, null=True, default='봉사자')
     is_active = models.BooleanField(default=True)
 
     class Meta:
