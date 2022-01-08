@@ -7,10 +7,12 @@ from chat.models import Thread, ChatMessage
 
 User = get_user_model()
 
-
+#비동기적 컨슈머 클래스를 상속받았으니 내가 지금 공부하고 있는것과는 조금 다르네
 class ChatConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
         print('connected', event)
+        #여기서 스코프는 어디서 받아오는 객체일까?
+        #인증된 경우에만 그렇겠지?
         user = self.scope['user']
         chat_room = f'user_chatroom_{user.id}'
         self.chat_room = chat_room
@@ -70,7 +72,6 @@ class ChatConsumer(AsyncConsumer):
                 'text': json.dumps(response)
             }
         )
-
 
 
     async def websocket_disconnect(self, event):
