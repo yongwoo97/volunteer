@@ -56,7 +56,7 @@ class ChatConsumer(AsyncConsumer):
             'sent_by': self_user.id,
             'thread_id': thread_id
         }
-
+        #다른사람의 그룹과 나의 그룹에 동시에 보내야 하는 이유는 무엇일까??
         await self.channel_layer.group_send(
             other_user_chat_room,
             {

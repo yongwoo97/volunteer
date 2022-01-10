@@ -69,10 +69,10 @@ def login_view(request):
         user = authenticate(username=username, password=password)
 
         if not user:
-            return JsonResponse({'error': 'invalid user'})
+            return JsonResponse({'message': 'invalid user'})
 
         token, _ = Token.objects.get_or_create(user=user)
-        return JsonResponse({'token': token.key})
+        return JsonResponse({'token': token.key}, status = 200)
 
 #닉네임 중복 확인
 @api_view(['POST'])

@@ -1,9 +1,16 @@
-class a:
+class MyError(Exception):
+    def __str__(self):
+        return 'error'
 
-    def __init__(self):
 
-        self._user = 1
-    def b(self):
-        print(self.user)
-a1 = a()
-print(getattr(a1, '_user'))
+def say_nick(nick):
+    if nick == 'a':
+        raise MyError
+
+c = 3
+try:
+    say_nick('a')
+except MyError as e:
+    if c == 3:
+        raise
+    print(e)

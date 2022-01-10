@@ -17,6 +17,7 @@ class boardviewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     #permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = board.objects.all()
+    print(queryset.all().all(), 'hello')
     serializer_class = boardserializer
 
     def list(self, request, *args, **kwargs):
