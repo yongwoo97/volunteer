@@ -9,11 +9,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Abstra
 class custom_user(AbstractUser):
     username = models.EmailField(max_length=100, unique=True, null=False)
     password = models.CharField(max_length=200)
-    nickname = models.CharField(max_length=100, null = False, unique=True, default='익명4')
-    # 봉사기관(True) or 봉사자(False)
-    purpose = models.BooleanField(default=False)
-    # 소속
-    belong = models.CharField(max_length=300, null=True, default='봉사자')
+    nickname = models.CharField(max_length=100, null=False, unique=True, default='익명')
     is_active = models.BooleanField(default=True)
 
     class Meta:

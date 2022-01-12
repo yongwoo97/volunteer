@@ -1,7 +1,7 @@
 from .models import board
 from authentication.models import custom_user
 from .serializer import boardserializer, ChatThreadSerializer, boardserializer1
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.decorators import action
+
 # board의 목록, detail 보여주기, 수정하기, 삭제하기 모두 가능
 class boardviewset(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
@@ -17,9 +18,9 @@ class boardviewset(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     #permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = board.objects.all()
-    print(queryset.all().all(), 'hello')
     serializer_class = boardserializer
 
+    #오버라이드하는걸 어떻게 하면 간편하게 할 수 있을까?
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
 
@@ -34,26 +35,54 @@ class boardviewset(viewsets.ModelViewSet):
         }
         return Response(data)
 
-    # serializer.save() 재정의
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    def create(self, request, *args, **kwargs):
+        #오버라이드된 부분
+        request.data['author'] = self.request.user.nickname
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def update(self, request, *args, **kwargs):
+        # 오버라이드된 부분
+        request.data['author'] = self.request.user.nickname
+
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
 
     #인스턴스를 할때마다 생성하나 보다
     def retrieve(self, request, *args, **kwargs):
         self.serializer_class = boardserializer1
         instance = self.get_object()
         serializer = self.get_serializer(instance)
+
+        instance.counter += 1
+        instance.save()
+
         new_data = {}
+        for i in serializer.data:
+            new_data[i] = serializer.data[i]
 
         try:
             if request.user.nickname == instance.author.nickname:
-                for i in serializer.data:
-                    new_data[i] = serializer.data[i]
                 new_data['is_author'] = True
-                return Response(new_data)
         except:
-            return Response(serializer.data)
-        return Response(serializer.data)
+            pass
+
+        return Response(new_data)
 
     @action(detail=False, methods=['GET'], url_path='my_list')
     def my_list(self, request):

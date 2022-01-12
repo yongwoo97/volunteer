@@ -101,7 +101,7 @@ class Activate(View):
                 user.is_active = True
                 user.save()
                 #리다이렉트를 어디로 설정할 것인가? 메인페이지로 호출해야겠지
-                return redirect('http://15.164.62.156:8888/api/board/')
+                return redirect('https://www.naver.com/')
 
             return JsonResponse({'message' : 'auth_fail'}, status=400)
         except ValidationError:
