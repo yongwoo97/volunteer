@@ -11,18 +11,16 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-    '''
     def save(self):
         user = custom_user(
             username=self.validated_data['username'],
-            nickname=self.validated_data['nickname'],
-            purpose=self.validated_data['purpose'],
-            belong=self.validated_data['belong']
+            password=self.validated_data['password'],
+            nickname=self.validated_data['nickname']
         )
         user.set_password(self.validated_data['password'])
         user.save()
         return user
-    '''
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
