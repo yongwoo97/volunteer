@@ -26,7 +26,7 @@ AUTH_USER_MODEL = 'authentication.custom_user'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['15.164.62.156']
+ALLOWED_HOSTS = ['15.164.62.156', '127.0.0.1']
 
 
 # Application definition

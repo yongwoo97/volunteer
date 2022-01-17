@@ -22,18 +22,14 @@ class boardviewset(viewsets.ModelViewSet):
 
     #오버라이드하는걸 어떻게 하면 간편하게 할 수 있을까?
     def list(self, request, *args, **kwargs):
-        queryset = self.filter_queryset(self.get_queryset())
-
+        queryset = self.filter_queryset(self.get_queryset()).reverse()
         page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(queryset, many=True)
-        data = {
-            "list": serializer.data
-        }
-        return Response(data)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         #오버라이드된 부분
@@ -86,10 +82,15 @@ class boardviewset(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['GET'], url_path='my_list')
     def my_list(self, request):
-        qs = self.queryset.filter(author=request.user.nickname)
+        qs = self.queryset.filter(author=request.user.nickname).reverse()
         serializer = self.get_serializer(qs, many=True)
         return Response(serializer.data)
 
+    @action(detail=False, methods=['POST'], url_path='your_list')
+    def your_list(self, request):
+        qs = self.queryset.filter(author=request.data.get('author')).reverse()
+        serializer = self.get_serializer(qs, many=True)
+        return Response(serializer.data)
 
 
 @api_view(['POST',])

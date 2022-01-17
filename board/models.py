@@ -7,7 +7,7 @@ from authentication.models import custom_user
 class board(models.Model):
     id = models.AutoField(primary_key=True, null=False, blank=False)
     title = models.CharField(max_length=100)
-    dday = models.DateTimeField(auto_now=True)
+    dday = models.CharField(max_length=200)
     members = models.IntegerField(default=0)
     part = models.CharField(max_length=100, null=False)
     zipcode = models.CharField(max_length=100, null=False)
