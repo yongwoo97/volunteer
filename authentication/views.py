@@ -20,6 +20,7 @@ from django.utils.encoding import force_bytes, force_text
 from .tasks import sending_email
 from .permissions import IsOwnerOrNothing
 
+
 @api_view(['GET', ])
 @permission_classes((IsOwnerOrNothing, ))
 def request_profile(request):
@@ -31,8 +32,20 @@ def request_profile(request):
 
             return JsonResponse(serializer.data)
         except:
-            return JsonResponse({"error": "invalid user"})
+            return JsonResponse({"message": "invalid user"}, status=401)
 
+@api_view(['POST',])
+@permission_classes((permissions.IsAuthenticatedOrReadOnly, ))
+def request_your_profile(request):
+    if request.method == 'POST':
+        try:
+            nickname = request.data.get('author')
+            qs = custom_user.objects.get(nickname=nickname)
+            serializer = ProfileSerializer(qs)
+
+            return JsonResponse(serializer.data)
+        except:
+            return JsonResponse({"message": "invalid user"}, status=401)
 
 @api_view(['POST', ])
 @permission_classes((permissions.AllowAny,))
@@ -56,6 +69,8 @@ def registration_view(request):
             return JsonResponse({'message':'success'}, status = 200)
         else:
             data = serializer.errors
+        if 'nickname' in data:
+            print('hello world')
         return JsonResponse(data)
 
 
@@ -69,7 +84,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
 
         if not user:
-            return JsonResponse({'message': 'invalid user'})
+            return JsonResponse({'message': 'invalid user'}, status=401)
 
         token, _ = Token.objects.get_or_create(user=user)
         return JsonResponse({'token': token.key}, status=200)

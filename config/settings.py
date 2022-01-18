@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['15.164.62.156', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'corsheaders',
+
     'rest_framework',
     'board',
     'authentication',
@@ -50,7 +50,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from authentication.views import registration_view, login_view, nickname_check, Activate, request_profile
+from authentication.views import registration_view, login_view, nickname_check, Activate, request_profile, request_your_profile
 from board.views import chat_start_view
 
 
@@ -14,7 +14,8 @@ urlpatterns = [
     path('api/nicknamecheck/', nickname_check, name='nickname_check'),
     path('api/chat/', include('chat.urls')),
     path('api/chatstart/', chat_start_view),
-    path('api/profile/', request_profile)
+    path('api/profile/', request_profile),
+    path('api/your_profile/', request_your_profile)
 ]
 
 
