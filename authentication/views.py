@@ -2,7 +2,7 @@
 from rest_framework.authtoken.models import Token
 from rest_framework import permissions
 from rest_framework.decorators import api_view, permission_classes
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import UserSerializer, ProfileSerializer, YourProfileSerializer
 from django.contrib.auth import authenticate
 
 #여기는 메일 인증을 위해 사용한 것들
@@ -41,7 +41,7 @@ def request_your_profile(request):
         try:
             nickname = request.data.get('author')
             qs = custom_user.objects.get(nickname=nickname)
-            serializer = ProfileSerializer(qs)
+            serializer = YourProfileSerializer(qs)
 
             return JsonResponse(serializer.data)
         except:
