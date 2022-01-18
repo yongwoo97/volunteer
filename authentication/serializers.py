@@ -31,4 +31,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 class YourProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = custom_user
-        fields = ('nickname')
+        fields = ('nickname',)

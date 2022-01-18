@@ -39,10 +39,13 @@ def request_profile(request):
 def request_your_profile(request):
     if request.method == 'POST':
         try:
-            nickname = request.data.get('author')
-            qs = custom_user.objects.get(nickname=nickname)
-            serializer = YourProfileSerializer(qs)
 
+            nickname = request.data.get('author')
+
+            qs = custom_user.objects.get(nickname=nickname)
+
+            serializer = YourProfileSerializer(qs)
+            print(serializer.data)
             return JsonResponse(serializer.data)
         except:
             return JsonResponse({"message": "invalid user"}, status=401)
