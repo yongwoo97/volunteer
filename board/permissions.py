@@ -8,5 +8,5 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        print(type(obj.author))
+
         return obj.author.nickname == request.user.nickname

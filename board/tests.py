@@ -12,6 +12,16 @@ c = 3
 try:
     say_nick('a')
 except MyError as e:
-    if c == 3:
-        print(e)
-print(3)
+    print(e)
+
+
+import re
+
+raw_string = 'woo2!2661@naver.com'
+pat = '(?P<first>.+)(?P<last>@[a-z]+[^.][a-z]{3})'
+
+result = re.search(pat, raw_string)
+print(result.group())
+
+
+print(callable(MyError))

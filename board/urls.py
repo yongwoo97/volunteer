@@ -5,6 +5,9 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('', boardviewset)
 
+
+print(type(include(router.urls)))
 urlpatterns =[
     path('', include(router.urls)),
 ]
+
