@@ -34,18 +34,16 @@ def request_profile(request):
         except:
             return JsonResponse({"message": "invalid user"}, status=401)
 
-@api_view(['POST',])
+@api_view(['POST'])
 @permission_classes((permissions.IsAuthenticatedOrReadOnly, ))
 def request_your_profile(request):
     if request.method == 'POST':
         try:
-
-            nickname = request.data.get('author')
-
+            axios = request.data.get('body')
+            nickname = eval(axios)['author']
             qs = custom_user.objects.get(nickname=nickname)
 
             serializer = YourProfileSerializer(qs)
-            print(serializer.data)
             return JsonResponse(serializer.data)
         except:
             return JsonResponse({"message": "invalid user"}, status=401)
@@ -77,7 +75,7 @@ def registration_view(request):
         return JsonResponse(data)
 
 
-#로그인 뷰, 아이디 패스워드 체크하고 맞으면 토큰 발급
+#로그인 뷰, 아이디 패스워드 체크하고 맞으면 토큰 발급:wq:l;l;l;l;
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny, ))
 def login_view(request):
@@ -97,7 +95,8 @@ def login_view(request):
 @permission_classes((permissions.AllowAny,))
 def nickname_check(request):
     if request.method == 'POST':
-        nickname = request.data.get('nickname')
+        axios = eval(request.data.get('body'))
+        nickname = axios['nickname']
         try:
             db_nickname = custom_user.objects.get(nickname=nickname)
             return JsonResponse({'message': 'already exists'})
