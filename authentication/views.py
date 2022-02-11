@@ -58,7 +58,6 @@ def registration_view(request):
         if serializer.is_valid():
 
             user = serializer.save()
-
             current_site = get_current_site(request)
             domain = current_site.domain
             uidb64 = urlsafe_base64_encode(force_bytes(user.pk))
@@ -101,7 +100,7 @@ def nickname_check(request):
             db_nickname = custom_user.objects.get(nickname=nickname)
             return JsonResponse({'message': 'already exists'})
         except:
-            return JsonResponse({'message' : 'possible nickname'})
+            return JsonResponse({'message': 'possible nickname'})
 
 
 class Activate(View):

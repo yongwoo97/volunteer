@@ -44,9 +44,13 @@ class boardviewset(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         # 오버라이드된 부분
         request.data['author'] = self.request.user.nickname
-
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
+
+        for i, j in request.data.items():
+            print(i, j)
+            if not j:
+                request.data[i] = getattr(instance, i)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
