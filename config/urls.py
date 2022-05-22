@@ -6,15 +6,15 @@ from board.views import chat_start_view
 
 
 urlpatterns = [
-    path('/', include('board.urls')),
+    path('board/', include('board.urls')),
     path('admin/', admin.site.urls),
     path('api/account/activate/<str:uidb64>/<str:token>', Activate.as_view()),
     path('api/register/', registration_view, name='register_user'),
     path('api/login/', login_view, name='login_user'),
     path('api/board/', include('board.urls')),
     path('api/nicknamecheck/', nickname_check, name='nickname_check'),
-    path('api/chat/', include('chat.urls')),
-    path('api/chatstart/', chat_start_view),
+    # path('api/chat/', include('chat.urls')),
+    # path('api/chatstart/', chat_start_view),
     path('api/profile/', request_profile),
     path('api/your_profile/', request_your_profile),
 ]

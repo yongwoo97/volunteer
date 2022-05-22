@@ -40,6 +40,7 @@ def request_your_profile(request):
     if request.method == 'POST':
         try:
             axios = request.data.get('body')
+            print(axios)
             nickname = eval(axios)['author']
             qs = custom_user.objects.get(nickname=nickname)
 
